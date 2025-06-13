@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_KEY = "50828964-E021381452EC656DE38C2C47D";
+const API_KEY = "50828964-e021381452ec656de38c2c47d";
 const BASE_URL = 'https://pixabay.com/api/';
 
 export function getImagesByQuery(query) {
@@ -14,9 +14,6 @@ export function getImagesByQuery(query) {
 
   return axios.get(BASE_URL, { params })
     .then(res => {
-      if (res.data.hits.length === 0) {
-        throw new Error('Sorry, there are no images matching your search query. Please try again!');
-      }
       return res.data; 
     });
 }
