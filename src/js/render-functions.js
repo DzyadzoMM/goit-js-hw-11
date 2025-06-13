@@ -1,61 +1,32 @@
-import SimpleLightbox from 'simplelightbox';
-import 'simplelightbox/dist/simple-lightbox.min.css';
+import SimpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css";
+
+const lightbox = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionDelay: 250,
+});
 
 const gallery = document.querySelector('.gallery');
 const loader = document.querySelector('.loader');
 
-let lightbox;
-
 export function createGallery(images) {
-  const markup = images
-    .map(
-      ({
-        webformatURL,
-        largeImageURL,
-        tags,
-        likes,
-        views,
-        comments,
-        downloads,
-      }) => `
-    <li class="gallery-item">
-      <a class="gallery-link" href="${largeImageURL}">
-        <img class="gallery-image" src="${webformatURL}" alt="${tags}" />
-      </a>
-      <div class="image-info">
-        <div class="info-item">
-          <p><b>Likes</b></p>
-          <p>${likes}</p>
-        </div>
-        <div class="info-item">
-          <p><b>Views</b></p>
-          <p>${views}</p>
-        </div>
-        <div class="info-item">
-          <p><b>Comments</b></p>
-          <p>${comments}</p>
-        </div>
-        <div class="info-item">
-          <p><b>Downloads</b></p>
-          <p>${downloads}</p>
-        </div>
-      </div>
-    </li>
-  `
-    )
-    .join('');
+    const markup = images.map(image => `
+        <li class="gallery-item">
+            <a href="${image.largeImageURL}">
+                <img src="${image.webformatURL}" alt="${image.tags}" class="image"/>
+            </a>
+            <div class="description">
+                <p class="text">Likes <span class="span">${image.likes}</span></p>
+                <p class="text">Views <span class="span">${image.views}</span></p>
+                <p class="text">Comments <span class="span">${image.comments}</span></p>
+                <p class="text">Downloads <span class="span">${image.downloads}</span></p>
+            </div>
+        </li>`
+        )
+        .join("");  
 
-  gallery.insertAdjacentHTML('beforeend', markup);
-
-  // Initialize SimpleLightbox only once
-  if (!lightbox) {
-    lightbox = new SimpleLightbox('.gallery a', {
-      captionsData: 'alt',
-      captionDelay: 250,
-    });
-  } else {
-    lightbox.refresh(); // Refresh if already initialized
-  }
+    gallery.insertAdjacentHTML('beforeend', markup);
+    lightbox.refresh();
 }
 
 export function clearGallery() {
@@ -63,9 +34,9 @@ export function clearGallery() {
 }
 
 export function showLoader() {
-  loader.classList.add('is-visible');
+  loader.style.display = "block";
 }
 
 export function hideLoader() {
-  loader.classList.remove('is-visible');
+  loader.style.display = "none";
 }
